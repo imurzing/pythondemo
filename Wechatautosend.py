@@ -14,7 +14,7 @@ def get_news():
 def send_news():
     try:
         itchat.auto_login(hotReload=True)
-        my_friend = itchat.search_friends(name=u'张凯')
+        my_friend = itchat.search_friends(name=u'Tinykay')
         Target = my_friend[0]["UserName"]
         message1 = str(get_news()[0])
         content = str(get_news()[1][5:])
