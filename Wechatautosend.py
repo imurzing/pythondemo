@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
-import itchat, requests
+import itchat, requests, datetime, re, random, time
 from threading import Timer
+
+
+word_compile = re.compile(r'', re.S)
+add_friend_compile = re.compile(r'')
 
 
 def get_news():
@@ -13,7 +17,6 @@ def get_news():
 
 def send_news():
     try:
-        itchat.auto_login(hotReload=True)
         my_friend = itchat.search_friends(name=u'Tinykay')
         Target = my_friend[0]["UserName"]
         message1 = str(get_news()[0])
@@ -23,15 +26,66 @@ def send_news():
         itchat.send(message1, toUserName=Target)
         itchat.send(message2, toUserName=Target)
         itchat.send(message3, toUserName=Target)
-        t = Timer(86400, send_news)
-        t.start()
+        Timer(86400, send_news).start()
     except:
         message4 = u"sfgsdf"
         itchat.send(message4, toUserName=Target)
 
 
+@itchat.msg_register(itchat.content.TEXT, isGroupChat=True)
+def reply(msg):
+    group_list = []
+    group_name = []
+    for group in group_list:
+        chat = itchat.search_chatrooms(name=group)
+        if len(chat) > 0:
+            group_name.append(chat[0]['UserName'])
+    result = word_compile.search(msg['Content'])
+    if result is not None:
+        if result.group() is not None:
+            for group in group_name:
+                itchat.send('%s' % (msg['Content']), toUserName=group)
+
+
+@itchat.msg_register(itchat.content.FRIENDS)
+def deal_with_friend(msg):
+    if add_friend_compile.search(msg['Content']) is not None:
+        itchat.add_friend(**msg['Text'])
+        time.sleep(random.randint(1, 3))
+        itchat.send_msg('', msg['RecommendInfo']['UserName'])
+        time.sleep(random.randint(1, 3))
+        itchat.send_msg('', msg['RecommendInfo']['UserName'])
+
+
+@itchat.msg_register(itchat.content.TEXT)
+def deal_with_message(msg):
+    text = msg['Content']
+    if text == u'':
+        time.sleep(random.randint(1, 3))
+        itchat.add_member_into_chatroom(get_group_id(""), [{'UserName': msg['FromUserName']}], useInvitation=True)
+    elif text == u'':
+        time.sleep(random.randint(1, 3))
+        return u''
+    elif text == u'':
+        time.sleep(random.randint(1, 3))
+        itchat.send_image('', msg['FromUserName'])
+    elif text == u'':
+        time.sleep(random.randint(1, 3))
+        itchat.send_msg('', msg['FromUserName'])
+    else:
+        time.sleep(random.randint(1, 3))
+
+
+def get_group_id(group_name):
+    group_list = itchat.search_chatrooms(name=group_name)
+    return group_list[0]['UserName']
+
+
 if __name__ == "__main__":
+    itchat.auto_login(hotReload=True)
+    itchat.run()
     send_news()
+
 
 
 # #不要抄下源码就运行，你需要改动几个地方
