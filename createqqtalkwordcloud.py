@@ -10,9 +10,9 @@ import matplotlib.pyplot as plt
 # 爬取QQ说说内容
 
 
-friend = input('请输入你要访问的QQ号码: ')  # 朋友的QQ号，**朋友的空间要求允许你能访问**，这里可以输入自己的qq号
-user = input('请输入你的QQ号码: ')  # 你的QQ号
-pw = input('请输入你的QQ密码: ')  # 你的QQ密码
+friend = input('请输入你要访问的QQ号码: ').strip()  # 朋友的QQ号，**朋友的空间要求允许你能访问**，这里可以输入自己的qq号
+user = input('请输入你的QQ号码: ').strip()  # 你的QQ号
+pw = input('请输入你的QQ密码: ').strip()  # 你的QQ密码
 
 
 def get_qq_content():
