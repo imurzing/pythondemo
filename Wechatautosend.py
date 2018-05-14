@@ -17,19 +17,19 @@ def get_news():
 
 def send_news():
     try:
-        my_friend = itchat.search_friends(name=u'Tinykay')
-        Target = my_friend[0]["UserName"]
-        message1 = str(get_news()[0])
-        content = str(get_news()[1][5:])
-        message2 = str(content)
+        my_friend = itchat.search_friends(name=u'Tinykay')[0]["UserName"]
+        content = get_news()
+        message1 = str(content[0])
+        message2 = str(content[1][5:])
         message3 = "啊哈"
-        itchat.send(message1, toUserName=Target)
-        itchat.send(message2, toUserName=Target)
-        itchat.send(message3, toUserName=Target)
+        itchat.send(message1, toUserName=my_friend)
+        itchat.send(message2, toUserName=my_friend)
+        itchat.send(message3, toUserName=my_friend)
         Timer(86400, send_news).start()
     except:
         message4 = u"sfgsdf"
-        itchat.send(message4, toUserName=Target)
+        target = itchat.search_friends(name=u'Tinykay')[0]["UserName"]
+        itchat.send(message4, toUserName=target)
 
 
 @itchat.msg_register(itchat.content.TEXT, isGroupChat=True)
