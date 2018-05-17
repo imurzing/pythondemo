@@ -1,6 +1,8 @@
 # coding:utf-8
 
-import time, os, jieba
+import time
+import os
+import jieba
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from wordcloud import WordCloud

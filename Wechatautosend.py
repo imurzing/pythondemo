@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
-import itchat, requests, datetime, re, random, time
+import itchat
+import requests
+import datetime
+import re
+import random
+import time
 from threading import Timer
 
 
