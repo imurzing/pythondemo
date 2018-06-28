@@ -7,6 +7,10 @@ __mtime__ = '9/05/2017'
 # code is far away from bugs with the god animal protecting
     I love animals. They taste delicious.
 """
+"""
+6/27/2018 修改：
+转出用户扣除红包
+"""
 import pymysql as mysql
 import time
 
@@ -251,7 +255,7 @@ for element in valid_order:
     print("当前{to_user}余额为:{money}".format(
         to_user=to_user, money=current_to_account))
     new_to_balance = current_to_account - invest_amount
-    new_from_balance = current_from_account + invest_amount
+    new_from_balance = current_from_account + invest_amount - red_envelope_discount
     # 修改account_running表
     # 修改转出用户account_running
     # 查询对应的account_running_id
@@ -304,21 +308,21 @@ for element in valid_order:
             running_id=query_account_running_id)
         execute_list.append(update_account_running_sql)
     # 如果有红包，加一笔红包收益
-    if red_envelope_discount > 0:
-        insert_from_account_running = ("insert into account_running "
-                                       "(account_id,pay_order_no,"
-                                       "subject,balance,income,outlay,"
-                                       "`notice`,gmt_created,"
-                                       "gmt_modified) values ({account_id},"
-                                       "'',"
-                                       "21,{balance},{income},"
-                                       "null,'订单{order_no}红包(债转)',"
-                                       "now(),now());").format(
-                account_id=from_account_id,
-                balance=new_from_balance,
-                income=red_envelope_discount,
-                order_no=order_no)
-        execute_list.append(insert_from_account_running)
+    # if red_envelope_discount > 0:
+    #     insert_from_account_running = ("insert into account_running "
+    #                                    "(account_id,pay_order_no,"
+    #                                    "subject,balance,income,outlay,"
+    #                                    "`notice`,gmt_created,"
+    #                                    "gmt_modified) values ({account_id},"
+    #                                    "'',"
+    #                                    "21,{balance},{income},"
+    #                                    "null,'订单{order_no}红包(债转)',"
+    #                                    "now(),now());").format(
+    #             account_id=from_account_id,
+    #             balance=new_from_balance,
+    #             income=red_envelope_discount,
+    #             order_no=order_no)
+    #     execute_list.append(insert_from_account_running)
     # 查询是否有已收收益
     query_interest_sql = ("select SUM(real_pay_interest) as payed,"
                           "count(if(real_pay_interest>1,true,null)) as ct "
