@@ -6,10 +6,10 @@ __author__ = 'Tinykay'
 __mtime__ = '9/05/2017'
 # code is far away from bugs with the god animal protecting
     I love animals. They taste delicious.
-"""
-"""
 6/27/2018 修改：
 转出用户扣除红包
+7/3/2018 修改:
+输入框默认去空格，接收用户添加默认值
 """
 import pymysql as mysql
 import time
@@ -152,9 +152,9 @@ def modify_census(member_id):
 
 
 # 数据检查
-from_user = input("输入转移的用户名(username):")
+from_user = input("输入转移的用户名(username):").strip()
 print(from_user)
-to_user = input("输入接收的用户名(username):")
+to_user = input("输入接收的用户名(username):").strip() or '18758079426'
 print(to_user)
 from_member_id = query_member_id(from_user)
 from_account_id = query_account_id(from_member_id)
@@ -325,7 +325,7 @@ for element in valid_order:
     #     execute_list.append(insert_from_account_running)
     # 查询是否有已收收益
     query_interest_sql = ("select SUM(real_pay_interest) as payed,"
-                          "count(if(real_pay_interest>1,true,null)) as ct "
+                          "count(if(real_pay_interest>0,true,null)) as ct "
                           "FROM `order_interest` WHERE order_no={order_no}").format(
         order_no=order_no)
     interest = db_tool(query_interest_sql)
