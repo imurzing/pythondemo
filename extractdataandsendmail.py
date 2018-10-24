@@ -14,6 +14,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 import config
 
 
+#database configuration
 config = {
     'host': '192.168.1.105',
     'port': 3306,
@@ -24,14 +25,13 @@ config = {
 }
 
 
-# 邮件配置
+# email configuration
 send_from = ''
 smtp_server = "smtp.126.com"
 smtp_server_port = 25
 email_passsword = ''
 send_to_mail_list = ['kai.zhang@qsdjr.com', 'xiaoqiang.huang@qsdjr.com', 'junfang.zuo@qsdjr.com', ]
-mail_content = ''
-mail_title = ''
+
 
 attachment_title = '"设备","渠道","首投并复投金额"\n'
 attachment_detail = '"'+element['设备']+'","'+element['渠道']+'","' + str(element['首投并复投金额'])+'"\n'
